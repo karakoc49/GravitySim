@@ -30,6 +30,10 @@ if(WIN32)
     find_library(GLFW_LIBRARY glfw3 HINTS ${GLFW_LIBRARY_DIR})
     target_link_libraries(GravitySim PRIVATE ${GLFW_LIBRARY})
 
+    # Link OpenGL library
+    find_package(OpenGL REQUIRED)
+    target_link_libraries(GravitySim PRIVATE OpenGL::GL)
+
 elseif(APPLE)
     # For macOS: Link against the OpenGL framework and GLFW
     find_package(glfw3 REQUIRED)
@@ -42,7 +46,7 @@ else()
     # For Linux (or other UNIX-like systems): Use the system-wide GLFW
     find_package(glfw3 REQUIRED)
     target_link_libraries(GravitySim PRIVATE glfw)
-    
+
     # Link OpenGL on Linux (using OpenGL package)
     find_package(OpenGL REQUIRED)
     target_link_libraries(GravitySim PRIVATE OpenGL::GL)
@@ -50,4 +54,3 @@ endif()
 
 # Include directories for your source files
 target_include_directories(GravitySim PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-
