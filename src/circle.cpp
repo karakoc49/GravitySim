@@ -14,20 +14,25 @@ void Circle::update(float dt) {
 
     // Apply gravity and collision handling
     ay = Physics::GRAVITY;
-    if (y - radius < Physics::GROUND_Y) {
-        y = Physics::GROUND_Y + radius;
+    if (y - radius < -Physics::LIMIT_LEN) {
+        y = -Physics::LIMIT_LEN + radius;
+        vy = -vy * Physics::ELASTICITY;
+    }
+
+    if (y + radius > 1.0f) {
+        y = Physics::LIMIT_LEN - radius;
         vy = -vy * Physics::ELASTICITY;
     }
 
     // Collision with screen's left side
-    if (x - radius < -1.0f) {
-        x = -1.0f + radius;
+    if (x - radius < -Physics::LIMIT_LEN) {
+        x = -Physics::LIMIT_LEN + radius;
         vx = -vx * Physics::ELASTICITY;
     }
 
     // Collision with screen's right side
-    if (x + radius > 1.0f) {
-        x = 1.0f - radius;
+    if (x + radius > Physics::LIMIT_LEN) {
+        x = Physics::LIMIT_LEN - radius;
         vx = -vx * Physics::ELASTICITY;
     }
 
